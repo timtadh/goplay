@@ -2,7 +2,6 @@ package main
 
 import "fmt"
 
-
 func fib(i int) (r int)
 {
     if (i == 0) { r = 0; }
