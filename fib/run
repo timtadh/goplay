@@ -1,5 +1,8 @@
 #!/bin/sh
 
+rm *.6
+rm 6.out
+
 6g *.go
 6l *.6
 ./6.out
