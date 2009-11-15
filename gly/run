@@ -1,0 +1,14 @@
+#!/bin/sh
+
+cd lex
+rm *.6 
+6g *.go
+
+cd ..
+rm *.6
+rm 6.out
+
+6g *.go
+6l *.6
+./6.out
+
