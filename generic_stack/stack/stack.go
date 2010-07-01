@@ -14,17 +14,17 @@ func NewStack() *Stack {
 
 func (self *Stack) Empty() bool { return self.list.Len() <= 0 }
 
-func (self *Stack) P__peek() interface{} {
+func (self *Stack) Peek() interface{} {
     e := self.list.Front()
     t, _ := e.Value.(interface{})
     return t
 }
 
-func (self *Stack) P__push(t interface{}) {
+func (self *Stack) Push(t interface{}) {
     self.list.PushFront(t)
 }
 
-func (self *Stack) P__pop() interface{} {
+func (self *Stack) Pop() interface{} {
     e := self.list.Front()
     t, _ := e.Value.(interface{})
     self.list.Remove(e)
