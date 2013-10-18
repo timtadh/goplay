@@ -65,7 +65,7 @@ func TestPutHasGetRemove(t *testing.T) {
     }
 
     records := make([]*record, 100)
-    table := NewHashTable(100)
+    table := NewHashTable(16)
 
     ranrec := func() *record {
         return &record{ randstr(20), randstr(20) }

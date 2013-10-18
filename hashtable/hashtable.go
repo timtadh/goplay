@@ -14,6 +14,7 @@ type HashTable interface {
     Put(key Hashable, value interface{}) (err error)
     Has(key Hashable) (has bool)
     Remove(key Hashable) (value interface{}, err error)
+    Size() int
 }
 
 type entry struct {
@@ -97,12 +98,31 @@ func (self *hash) bucket(key Hashable) int {
     return key.Hash() % len(self.table)
 }
 
+func (self *hash) Size() int { return self.size }
+
 func (self *hash) Put(key Hashable, value interface{}) (err error) {
     bucket := self.bucket(key)
     var appended bool
     self.table[bucket], appended = self.table[bucket].Put(key, value)
     if appended {
         self.size += 1
+    }
+    if self.size * 2 > len(self.table) {
+        return self.expand()
+    }
+    return nil
+}
+
+func (self *hash) expand() error {
+    table := self.table
+    self.table = make([]*entry, len(table)*2)
+    self.size = 0
+    for _, E := range table {
+        for e := E; e != nil; e = e.next {
+            if err := self.Put(e.key, e.value); err != nil {
+                return err
+            }
+        }
     }
     return nil
 }
@@ -131,4 +151,5 @@ func (self *hash) Remove(key Hashable) (value interface{}, err error) {
     self.size -= 1
     return value, nil
 }
+
 
