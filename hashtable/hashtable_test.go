@@ -64,8 +64,8 @@ func TestPutHasGetRemove(t *testing.T) {
         value String
     }
 
-    records := make([]*record, 100)
-    table := NewHashTable(16)
+    records := make([]*record, 400)
+    table := NewHashTable()
 
     ranrec := func() *record {
         return &record{ randstr(20), randstr(20) }
@@ -82,8 +82,8 @@ func TestPutHasGetRemove(t *testing.T) {
         if err != nil {
             t.Error(err)
         }
-        if (table.(*hash)).size != (i+1) {
-            t.Error("size was wrong", (table.(*hash)).size, i+1)
+        if table.Size() != (i+1) {
+            t.Error("size was wrong", table.Size(), i+1)
         }
     }
 
@@ -120,8 +120,8 @@ func TestPutHasGetRemove(t *testing.T) {
                 t.Error("wrong value")
             }
         }
-        if (table.(*hash)).size != (len(records) - (i+1)) {
-            t.Error("size was wrong", (table.(*hash)).size, (len(records) - (i+1)))
+        if table.Size() != (len(records) - (i+1)) {
+            t.Error("size was wrong", table.Size(), (len(records) - (i+1)))
         }
     }
 }

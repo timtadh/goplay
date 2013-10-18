@@ -114,6 +114,7 @@ func (self *hash) Put(key Hashable, value interface{}) (err error) {
 }
 
 func (self *hash) expand() error {
+    fmt.Println("expanding", len(self.table)*2)
     table := self.table
     self.table = make([]*entry, len(table)*2)
     self.size = 0
