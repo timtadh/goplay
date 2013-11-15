@@ -1,22 +1,5 @@
 package hashtable
 
-import (
-  "fmt"
-)
-
-type Hashable interface {
-    Equals(b Hashable) bool
-    Hash() int
-}
-
-type HashTable interface {
-    Get(key Hashable) (value interface{}, err error)
-    Put(key Hashable, value interface{}) (err error)
-    Has(key Hashable) (has bool)
-    Remove(key Hashable) (value interface{}, err error)
-    Size() int
-}
-
 type entry struct {
     key Hashable
     value interface{}
@@ -30,14 +13,18 @@ type hash struct {
 
 type String string
 
-var Errors map[string]error = map[string]error{
-    "not-found":fmt.Errorf("Key was not in hash table"),
-    "list-not-found":fmt.Errorf("Key was not in bucket when expected"),
-}
 
 func (self String) Equals(other Hashable) bool {
     if o, ok := other.(String); ok {
         return self == o
+    } else {
+        return false
+    }
+}
+
+func (self String) Less(other Hashable) bool {
+    if o, ok := other.(String); ok {
+        return self < o
     } else {
         return false
     }
@@ -114,7 +101,6 @@ func (self *hash) Put(key Hashable, value interface{}) (err error) {
 }
 
 func (self *hash) expand() error {
-    fmt.Println("expanding", len(self.table)*2)
     table := self.table
     self.table = make([]*entry, len(table)*2)
     self.size = 0
